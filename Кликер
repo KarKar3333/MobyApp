@@ -1,0 +1,265 @@
+import 'package:flutter/material.dart';
+
+// Вставьте сюда ссылку на ваше фоновое изображение
+const String backgroundImageUrl =
+    'https://steamuserimages-a.akamaihd.net/ugc/2110558388124607901/653D9DC42309A3BB3AF2A264E6B00BCB36648440/?imw=512&amp;imh=288&amp;ima=fit&amp;impolicy=Letterbox&amp;imcolor=%23000000&amp;letterbox=true';
+
+void main() {
+  runApp(CookieClickerApp());
+}
+
+class CookieClickerApp extends StatefulWidget {
+  @override
+  _CookieClickerAppState createState() => _CookieClickerAppState();
+}
+
+class _CookieClickerAppState extends State<CookieClickerApp> {
+  int cookies = 0;
+  bool onGameScreen = false;
+
+  void incrementCookies() {
+    setState(() {
+      cookies++;
+    });
+  }
+
+  void goToGameScreen() {
+    setState(() {
+      onGameScreen = true;
+    });
+  }
+
+  void goToStartScreen() {
+    setState(() {
+      onGameScreen = false;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: onGameScreen
+          ? CookieClickerScreen(
+              cookies: cookies,
+              onIncrement: incrementCookies,
+              onBack: goToStartScreen,
+            )
+          : StartScreen(
+              onStart: goToGameScreen,
+            ),
+    );
+  }
+}
+
+class StartScreen extends StatelessWidget {
+  final VoidCallback onStart;
+
+  StartScreen({required this.onStart});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      // Делаем фон прозрачным, чтобы видеть фон из Container
+      backgroundColor: Colors.transparent,
+      appBar: AppBar(
+        toolbarHeight: 60,
+        elevation: 0,
+        backgroundColor: Colors.transparent,
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+            color: Colors.orangeAccent,
+            borderRadius: BorderRadius.circular(12),
+          ),
+          alignment: Alignment.center,
+          child: Text(
+            'Cookie Clicker',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+      ),
+      extendBodyBehindAppBar: true,
+      // Оборачиваем Scaffold в Container с фоном
+      body: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: NetworkImage(backgroundImageUrl),
+            fit: BoxFit.cover,
+          ),
+        ),
+        child: Center(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ElevatedButton(
+                onPressed: onStart,
+                child: Text('Start'),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Color(0xFFD2691E),
+                  foregroundColor: Colors.white,
+                ),
+              ),
+              SizedBox(height: 20),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => SettingsScreen()),
+                  );
+                },
+                child: Text('Settings'),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Color(0xFFD2691E),
+                  foregroundColor: Colors.white,
+                ),
+              ),
+              SizedBox(height: 20),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.of(context).maybePop();
+                },
+                child: Text('Exit'),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Color(0xFFD2691E),
+                  foregroundColor: Colors.white,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class SettingsScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.transparent,
+      appBar: AppBar(
+        title: Text('Settings'),
+        centerTitle: true,
+        backgroundColor: Colors.orangeAccent,
+      ),
+      body: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: NetworkImage(backgroundImageUrl),
+            fit: BoxFit.cover,
+          ),
+        ),
+        child: Center(
+          child: Text(
+            'Settings - In Development',
+            style: TextStyle(
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class CookieClickerScreen extends StatefulWidget {
+  final int cookies;
+  final VoidCallback onBack;
+  final VoidCallback onIncrement;
+
+  CookieClickerScreen({
+    required this.cookies,
+    required this.onBack,
+    required this.onIncrement,
+  });
+
+  @override
+  _CookieClickerScreenState createState() => _CookieClickerScreenState();
+}
+
+class _CookieClickerScreenState extends State<CookieClickerScreen> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.transparent,
+      appBar: AppBar(
+        toolbarHeight: 60,
+        elevation: 0,
+        backgroundColor: Colors.transparent,
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+            color: Colors.orangeAccent,
+            borderRadius: BorderRadius.circular(12),
+          ),
+          alignment: Alignment.center,
+          child: Text(
+            'Cookie Clicker',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: widget.onBack,
+        ),
+      ),
+      extendBodyBehindAppBar: true,
+      body: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: NetworkImage(backgroundImageUrl),
+            fit: BoxFit.cover,
+          ),
+        ),
+        child: ConstrainedBox(
+          constraints: BoxConstraints.expand(),
+          child: Stack(
+            children: [
+              Container(
+                color: Colors.transparent, // чтобы фон был виден
+                child: Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Cookies: ${widget.cookies}',
+                        style: TextStyle(fontSize: 24.0, color: Colors.white),
+                      ),
+                      SizedBox(height: 20),
+                      GestureDetector(
+                        onTap: widget.onIncrement, // Добавлен обработчик нажатия
+                        child: Image.network(
+                          'https://bruce-moe.github.io/Cookieclicker/resources/Cookie.png',
+                          width: 150,
+                          height: 150,
+                          fit: BoxFit.contain,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+extension NormalizeOffset on Offset {
+  Offset normalize() {
+    final length = distance;
+    if (length == 0) return this;
+    return this / length;
+  }
+}
