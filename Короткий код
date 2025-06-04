@@ -1,0 +1,124 @@
+import 'package:flutter/material.dart';
+
+const String backgroundImageUrl =
+    'https://steamuserimages-a.akamaihd.net/ugc/2110558388124607901/653D9DC42309A3BB3AF2A264E6B00BCB36648440/?imw=512&amp;imh=288&amp;ima=fit&amp;impolicy=Letterbox&amp;imcolor=%23000000&amp;letterbox=true';
+
+void main() => runApp(CookieClickerApp());
+
+class CookieClickerApp extends StatefulWidget {
+  @override
+  _CookieClickerAppState createState() => _CookieClickerAppState();
+}
+
+class _CookieClickerAppState extends State<CookieClickerApp> {
+  int cookies = 0;
+  bool isGameScreen = false;
+
+  void incrementCookies() => setState(() => cookies++);
+  void toggleScreen() => setState(() => isGameScreen = !isGameScreen);
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: isGameScreen
+          ? GameScreen(
+              cookies: cookies,
+              onIncrement: incrementCookies,
+              onBack: toggleScreen,
+            )
+          : StartScreen(onStart: toggleScreen),
+    );
+  }
+}
+
+class StartScreen extends StatelessWidget {
+  final VoidCallback onStart;
+  StartScreen({required this.onStart});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      extendBodyBehindAppBar: true,
+      backgroundColor: Colors.transparent,
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: Colors.orangeAccent,
+        centerTitle: true,
+        title: Text('Cookie Clicker'),
+      ),
+      body: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: NetworkImage(backgroundImageUrl),
+            fit: BoxFit.cover,
+          ),
+        ),
+        child: Center(
+          child: ElevatedButton(
+            onPressed: onStart,
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Color(0xFFD2691E),
+              foregroundColor: Colors.white,
+            ),
+            child: Text('Start'),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class GameScreen extends StatelessWidget {
+  final int cookies;
+  final VoidCallback onIncrement;
+  final VoidCallback onBack;
+
+  GameScreen({
+    required this.cookies,
+    required this.onIncrement,
+    required this.onBack,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      extendBodyBehindAppBar: true,
+      backgroundColor: Colors.transparent,
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: Colors.orangeAccent,
+        title: Text('Cookie Clicker'),
+        leading: BackButton(onPressed: onBack),
+      ),
+      body: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: NetworkImage(backgroundImageUrl),
+            fit: BoxFit.cover,
+          ),
+        ),
+        child: Center(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                'Cookies: $cookies',
+                style: TextStyle(fontSize: 24, color: Colors.white),
+              ),
+              SizedBox(height: 20),
+              GestureDetector(
+                onTap: onIncrement,
+                child: Image.network(
+                  'https://bruce-moe.github.io/Cookieclicker/resources/Cookie.png',
+                  width: 150,
+                  height: 150,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
