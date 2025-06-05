@@ -111,3 +111,74 @@ Colors.white,
   );
 }
 
+
+Объяснение:
+
+Scaffold — каркас экрана.
+
+Фон задается с помощью Container с DecorationImage.
+
+Три кнопки: «Пуск», «Настройки», «Выход».
+
+Кнопка «Пуск» вызывает onStart, «Настройки» открывает настройки, «Выход» закрывает экран.
+
+6. Экран настроек
+дротик
+class SettingsScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.transparent,
+      appBar: AppBar(
+        title: Text('Settings'),
+        centerTitle: true,
+        backgroundColor: Colors.orangeAccent,
+      ),
+      body: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: NetworkImage(backgroundImageUrl),
+            fit: BoxFit.cover,
+          ),
+        ),
+        child: Center(
+          child: Text(
+            'Settings - In Development',
+            style: TextStyle(
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+Объяснение:
+
+Экран с заголовком и фоном.
+
+В центре надпись «Настройки — в разработке».
+
+7. Экран игры (Cookie Clicker)
+дротик
+class CookieClickerScreen extends StatefulWidget {
+  final int cookies;
+  final VoidCallback onBack;
+  final VoidCallback onIncrement;
+
+  CookieClickerScreen({
+    required this.cookies,
+    required this.onBack,
+    required this.onIncrement,
+  });
+
+  @override
+  _CookieClickerScreenState createState() => _CookieClickerScreenState();
+}
+Объяснение:
+
+Экран игры — это виджет с отслеживанием состояния.
+
+Получает количество печенек, функцию возврата и функцию увеличения
