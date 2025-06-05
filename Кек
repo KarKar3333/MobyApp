@@ -182,3 +182,60 @@ class CookieClickerScreen extends StatefulWidget {
 Экран игры — это виджет с отслеживанием состояния.
 
 Получает количество печенек, функцию возврата и функцию увеличения
+
+
+${widget.cookies}',
+                        style: TextStyle(fontSize: 24.0, color: Colors.white),
+                      ),
+                      SizedBox(height: 20),
+                      GestureDetector(
+                        onTap: widget.onIncrement,
+                        child: Image.network(
+                          'https://bruce-moe.github.io/Cookieclicker/resources/Cookie.png',
+                          width: 150,
+                          height: 150,
+                          fit: BoxFit.contain,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+Объяснение:
+
+AppBar с кнопкой возврата.
+
+В центре отображается количество печенек и изображение печенки.
+
+При нажатии на печеньку активируется функция увеличения.
+
+8. Extension для Offset
+дротик
+extension NormalizeOffset on Offset {
+  Offset normalize() {
+    final length = distance;
+    if (length == 0) return this;
+    return this / length;
+  }
+}
+Объяснение:
+
+Расширение для класса Offset (координаты).
+
+Добавляет метод normalize(), который возвращает нормализованный вектор (длина = 1).
+
+В данном проекте, возможно, заложены перспективы на будущее.
+
+Итог
+Приложение состоит из трех основных экранов: стартовый, игровой и экран настроек.
+
+Используется глобальный фон, пользовательские кнопки и простая логика переходов между экранами.
+
+Весь код хорошо структурирован и легко расширяется.
