@@ -76,3 +76,38 @@ Widget build(BuildContext context) {
           ),
   );
 }
+Colors.white,
+              ),
+            ),
+            SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => SettingsScreen()),
+                );
+              },
+              child: Text('Settings'),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Color(0xFFD2691E),
+                foregroundColor: Colors.white,
+              ),
+            ),
+            SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).maybePop();
+              },
+              child: Text('Exit'),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Color(0xFFD2691E),
+                foregroundColor: Colors.white,
+              ),
+            ),
+          ],
+        ),
+      ),
+    ),
+  );
+}
+
