@@ -1,0 +1,78 @@
+Подробный разбор кода Flutter Cookie Clicker
+1. Импорт библиотек
+дротик
+import 'package:flutter/material.dart';
+Объяснение:
+Импортируется основной пакет Flutter для создания приложений в стиле Material Design.
+
+2. Глобальные константы
+дротик
+const String backgroundImageUrl = 'https://steamuserimages-a.akamaihd.net/ugc/2110558388124607901/653D9DC42309A3BB3AF2A264E6B00BCB36648440/?imw=512&amp;imh=288&amp;ima=fit&amp;impolicy=Letterbox&amp;imcolor=%23000000&amp;letterbox=true';
+Объяснение:
+Создается глобальная строковая константа с URL-адресом фонового изображения, используемого на всех экранах.
+
+3. Точка входа в приложение
+дротик
+void main() {
+  runApp(CookieClickerApp());
+}
+Объяснение:
+main() — точка входа. Запускает приложение, передавая главный виджет CookieClickerApp().
+
+4. Главный виджет приложения
+дротик
+class CookieClickerApp extends StatefulWidget {
+  @override
+  _CookieClickerAppState createState() => _CookieClickerAppState();
+}
+Объяснение:
+Создается виджет с отслеживанием состояния, который может изменять свое состояние (например, количество печенек и текущий экран).
+
+Состояние главного виджета
+дротик
+class _CookieClickerAppState extends State<CookieClickerApp> {
+  int cookies = 0;
+  bool onGameScreen = false;
+
+  void incrementCookies() {
+    setState(() {
+      cookies++;
+    });
+  }
+
+  void goToGameScreen() {
+    setState(() {
+      onGameScreen = true;
+    });
+  }
+
+  void goToStartScreen() {
+    setState(() {
+      onGameScreen = false;
+    });
+  }
+Объяснение:
+
+cookies — текущее количество печенек.
+
+onGameScreen — флаг, показывающий, на каком экране находится пользователь.
+
+Методы incrementCookies, goToGameScreen, goToStartScreen изменяют состояние и вызывают перерисовку виджета.
+
+Построение интерфейса
+дротик
+@override
+Widget build(BuildContext context) {
+  return MaterialApp(
+    debugShowCheckedModeBanner: false,
+    home: onGameScreen
+        ? CookieClickerScreen(
+            cookies: cookies,
+            onIncrement: incrementCookies,
+            onBack: goToStartScreen,
+          )
+        : StartScreen(
+            onStart: goToGameScreen,
+          ),
+  );
+}
