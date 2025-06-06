@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-// Вставьте сюда ссылку на ваше фоновое изображение
 const String backgroundImageUrl =
     'https://steamuserimages-a.akamaihd.net/ugc/2110558388124607901/653D9DC42309A3BB3AF2A264E6B00BCB36648440/?imw=512&amp;imh=288&amp;ima=fit&amp;impolicy=Letterbox&amp;imcolor=%23000000&amp;letterbox=true';
 
