@@ -1,3 +1,127 @@
+Класс `_CookieClickerScreenState` — это **состояние** (State) для виджета `CookieClickerScreen`, который является `StatefulWidget`. Он отвечает за хранение данных, управление логикой и построение интерфейса игрового экрана.
+
+---
+
+## Основные задачи `_CookieClickerScreenState`
+
+### 1. Хранение и отображение состояния
+
+- В вашем коде состояние хранится в родительском виджете `CookieClickerApp` и передаётся в `CookieClickerScreen` через параметры (например, количество печенек `cookies`).
+- `_CookieClickerScreenState` не содержит собственных переменных состояния, а использует данные из `widget` (то есть из `CookieClickerScreen`).
+
+---
+
+### 2. Построение интерфейса (метод `build`)
+
+```dart
+@override
+Widget build(BuildContext context) {
+  return Scaffold(
+    backgroundColor: Colors.transparent,
+    appBar: AppBar(
+      toolbarHeight: 60,
+      elevation: 0,
+      backgroundColor: Colors.transparent,
+      flexibleSpace: Container(
+        decoration: BoxDecoration(
+          color: Colors.orangeAccent,
+          borderRadius: BorderRadius.circular(12),
+        ),
+        alignment: Alignment.center,
+        child: Text(
+          'Cookie Clicker',
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
+      leading: IconButton(
+        icon: Icon(Icons.arrow_back),
+        onPressed: widget.onBack,
+      ),
+    ),
+    extendBodyBehindAppBar: true,
+    body: Container(
+      decoration: BoxDecoration(
+        image: DecorationImage(
+          image: NetworkImage(backgroundImageUrl),
+          fit: BoxFit.cover,
+        ),
+      ),
+      child: ConstrainedBox(
+        constraints: BoxConstraints.expand(),
+        child: Stack(
+          children: [
+            Container(
+              color: Colors.transparent,
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Cookies: ${widget.cookies}',
+                      style: TextStyle(fontSize: 24.0, color: Colors.white),
+                    ),
+                    SizedBox(height: 20),
+                    GestureDetector(
+                      onTap: widget.onIncrement,
+                      child: Image.network(
+                        'https://bruce-moe.github.io/Cookieclicker/resources/Cookie.png',
+                        width: 150,
+                        height: 150,
+                        fit: BoxFit.contain,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    ),
+  );
+}
+```
+
+- Создаёт экран с прозрачным фоном и оранжевым AppBar.
+- Показывает количество печенек (`widget.cookies`).
+- Отображает изображение печеньки, на которое можно нажать (через `GestureDetector`), чтобы вызвать `widget.onIncrement` — функцию увеличения счётчика.
+- Кнопка "назад" в AppBar вызывает `widget.onBack` — возвращение на стартовый экран.
+
+---
+
+### 3. Взаимодействие с родительским виджетом
+
+- Все данные и функции передаются из родительского виджета через параметры:
+  - `cookies` — текущее количество печенек.
+  - `onIncrement` — функция для увеличения счётчика.
+  - `onBack` — функция для возврата на стартовый экран.
+
+Это позволяет отделить логику состояния (в родителе) от отображения и взаимодействия (в `_CookieClickerScreenState`).
+
+---
+
+### 4. Почему класс Stateful
+
+- Хотя в этом классе нет собственного состояния, он наследуется от `State`, чтобы иметь возможность реагировать на изменения, если они появятся.
+- В вашем случае состояние хранится выше, но структура позволяет легко расширять функционал.
+
+---
+
+## Итог
+
+- `_CookieClickerScreenState` отвечает за **построение UI игрового экрана**.
+- Отображает количество печенек и кнопку с печенькой.
+- Обрабатывает нажатия на печеньку (увеличение счётчика) и кнопку "назад".
+- Использует данные и функции, переданные из родительского виджета.
+- Создаёт интерфейс с фоном, AppBar и основным содержимым.
+
+---
+
+Если хотите, могу помочь добавить в этот класс собственное состояние или дополнительные функции!
 Метод  
 ```dart
 _CookieClickerScreenState createState() => _CookieClickerScreenState();
