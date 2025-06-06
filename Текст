@@ -1,0 +1,98 @@
+Основной класс вашего приложения — **CookieClickerApp** — наследуется от **StatefulWidget**. Это значит, что он обладает изменяемым состоянием, которое может меняться в процессе работы приложения и влиять на отображение интерфейса.
+
+---
+
+## Как работает структура класса CookieClickerApp
+
+1. **CookieClickerApp — StatefulWidget**
+
+```dart
+class CookieClickerApp extends StatefulWidget {
+  @override
+  _CookieClickerAppState createState() => _CookieClickerAppState();
+}
+```
+
+- Этот класс сам по себе неизменяем (immutable), но он создаёт объект состояния `_CookieClickerAppState`, который хранит изменяемые данные приложения.
+- Метод `createState()` вызывается фреймворком Flutter для создания связанного объекта состояния[1][2][4].
+
+2. **_CookieClickerAppState — State**
+
+```dart
+class _CookieClickerAppState extends State {
+  int cookies = 0;
+  bool onGameScreen = false;
+
+  void incrementCookies() {
+    setState(() {
+      cookies++;
+    });
+  }
+
+  void goToGameScreen() {
+    setState(() {
+      onGameScreen = true;
+    });
+  }
+
+  void goToStartScreen() {
+    setState(() {
+      onGameScreen = false;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: onGameScreen
+          ? CookieClickerScreen(
+              cookies: cookies,
+              onIncrement: incrementCookies,
+              onBack: goToStartScreen,
+            )
+          : StartScreen(
+              onStart: goToGameScreen,
+            ),
+    );
+  }
+}
+```
+
+- Здесь хранятся **переменные состояния**: `cookies` (количество печенек) и `onGameScreen` (флаг, какой экран показывать).
+- Методы `incrementCookies`, `goToGameScreen`, `goToStartScreen` изменяют состояние, вызывая `setState()`. Это сообщает Flutter, что нужно перестроить UI с новыми данными[1][2].
+- Метод `build()` строит интерфейс, выбирая, какой экран показывать, в зависимости от значения `onGameScreen`. Если `true` — показывается игровой экран с текущим количеством печенек, иначе — стартовый экран.
+
+---
+
+## Зачем нужен StatefulWidget?
+
+- **StatefulWidget** используется, когда виджет должен хранить и изменять состояние, которое влияет на отображение. В вашем случае:
+
+  - Количество печенек меняется при кликах.
+  - Переключение между стартовым и игровым экранами.
+  
+- В отличие от **StatelessWidget**, который не хранит изменяемых данных и всегда строится одинаково при одинаковых параметрах, **StatefulWidget** позволяет динамически обновлять UI при изменении данных[1][2][4].
+
+- При изменении состояния вызывается `setState()`, что приводит к повторному вызову `build()` и обновлению интерфейса с новыми значениями.
+
+---
+
+## Кратко
+
+| Компонент                | Роль                                                                                  |
+|-------------------------|---------------------------------------------------------------------------------------|
+| CookieClickerApp         | StatefulWidget, создаёт состояние для управления игрой и экраном                      |
+| _CookieClickerAppState   | Хранит изменяемые данные (cookies, onGameScreen), обновляет UI через setState()       |
+| setState()               | Метод, который уведомляет Flutter о необходимости перестроить виджет с новым состоянием |
+
+---
+
+Таким образом, структура с **StatefulWidget** и связанным с ним классом **State** позволяет вашему приложению хранить и изменять данные (состояние) и автоматически обновлять интерфейс при этих изменениях[1][2][4].
+
+[1] https://metanit.com/dart/flutter/3.8.php
+[2] https://flutter.su/tutorial/2-StatelessWidget-StatefulWidget
+[3] https://www.youtube.com/watch?v=GhpbQdxHEr0
+[4] https://education.yandex.ru/handbook/flutter/article/widgets-basics-stless-stful-inherited
+[5] https://www.youtube.com/watch?v=IGcw25D6JIU
+[6] https://www.youtube.com/watch?v=3ab4rRKz5dU
