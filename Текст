@@ -1,3 +1,72 @@
+Метод  
+```dart
+_CookieClickerScreenState createState() => _CookieClickerScreenState();
+```
+в классе `CookieClickerScreen` (который наследуется от `StatefulWidget`) отвечает за создание и связывание **объекта состояния** (State) с самим виджетом.
+
+---
+
+## Что это значит и зачем нужно
+
+- Класс `CookieClickerScreen` — это **StatefulWidget**, то есть виджет с изменяемым состоянием.
+- Сам `StatefulWidget` является **неизменяемым** (immutable) объектом, который описывает конфигурацию виджета.
+- Для хранения и управления **изменяемыми данными** (состоянием) Flutter требует создать отдельный класс, наследующийся от `State`, в вашем случае — `_CookieClickerScreenState`.
+- Метод `createState()` вызывается **фреймворком Flutter при вставке виджета в дерево** и должен вернуть новый экземпляр состояния.
+
+---
+
+## Как это работает
+
+1. Когда Flutter строит виджет `CookieClickerScreen`, он вызывает метод `createState()`.
+2. Этот метод создаёт объект `_CookieClickerScreenState`, который содержит логику состояния и метод `build()`, возвращающий UI.
+3. Все изменяемые данные и методы управления состоянием находятся именно в `_CookieClickerScreenState`.
+4. При изменениях состояния вызывается `setState()` внутри `_CookieClickerScreenState`, что приводит к повторному вызову `build()` и обновлению интерфейса.
+
+---
+
+## Кратко
+
+| Что                  | Описание                                                                                         |
+|----------------------|------------------------------------------------------------------------------------------------|
+| `createState()`      | Метод, который создаёт и возвращает объект состояния для данного StatefulWidget                 |
+| `_CookieClickerScreenState` | Класс, который содержит изменяемое состояние и логику построения UI для `CookieClickerScreen` |
+| Зачем нужно          | Чтобы отделить **конфигурацию виджета** (immutable) от его **изменяемого состояния** (mutable) |
+
+---
+
+## Пример из вашего кода
+
+```dart
+class CookieClickerScreen extends StatefulWidget {
+  @override
+  _CookieClickerScreenState createState() => _CookieClickerScreenState();
+}
+```
+
+- Здесь `createState()` возвращает новый экземпляр `_CookieClickerScreenState`.
+- В `_CookieClickerScreenState` реализован метод `build()`, который описывает, как отображать экран и реагировать на изменения.
+
+---
+
+## Дополнительные детали
+
+- Метод `createState()` может вызываться несколько раз, например, если виджет удаляется и добавляется заново в дерево.
+- Это стандартный паттерн Flutter для реализации виджетов с состоянием[1][2][3][5][6].
+
+---
+
+Таким образом,  
+`_CookieClickerScreenState createState() => _CookieClickerScreenState();`  
+— это обязательный метод, который связывает ваш `StatefulWidget` с его состоянием, позволяя управлять изменениями и обновлять UI.
+
+[1] https://education.yandex.ru/handbook/flutter/article/widgets-basics-stless-stful-inherited
+[2] https://metanit.com/dart/flutter/3.8.php
+[3] https://flutter.su/tutorial/2-StatelessWidget-StatefulWidget
+[4] https://habr.com/ru/articles/795979/
+[5] https://vk.com/@bonch_dev-vse-chto-vy-hoteli-znat-o-flutter-no-stesnyalis-sprosit-1
+[6] https://api.flutter.dev/flutter/widgets/StatefulWidget/createState.html
+[7] https://www.youtube.com/watch?v=3ab4rRKz5dU
+[8] https://habr.com/ru/articles/501862/
 Тип виджета — StatelessWidget
 SettingsScreen — это StatelessWidget, то есть экран, который не хранит и не изменяет состояние.
 
